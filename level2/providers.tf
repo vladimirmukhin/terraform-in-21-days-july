@@ -10,7 +10,7 @@ terraform {
 
   backend "s3" {
     bucket         = "terraform-remote-state-123123123"
-    key            = "terraform.tfstate"
+    key            = "level2.tfstate"
     region         = "us-east-1"
     dynamodb_table = "state-lock"
   }
