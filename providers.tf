@@ -9,9 +9,10 @@ terraform {
   required_version = ">= 1.2.0"
 
   backend "s3" {
-    bucket = "terraform-remote-state-123123123"
-    key    = "terraform.tfstate"
-    region = "us-east-1"
+    bucket         = "terraform-remote-state-123123123"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "state-lock"
   }
 }
 
