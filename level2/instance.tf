@@ -24,7 +24,7 @@ resource "aws_security_group" "public" {
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
-    cidr_blocks      = ["98.186.194.188/32"]
+    cidr_blocks      = ["98.186.198.189/32"]
   }
 
   ingress {
@@ -32,7 +32,7 @@ resource "aws_security_group" "public" {
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
-    cidr_blocks      = ["98.186.194.188/32"]
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   egress {
@@ -48,9 +48,11 @@ resource "aws_security_group" "public" {
 }
 
 resource "aws_instance" "web" {
+  count = 2
+
   ami                         = data.aws_ami.amazonlinux.id
   instance_type               = "t3.micro"
-  subnet_id                   = data.terraform_remote_state.level1.outputs.public_subnet_id[0]
+  subnet_id                   = data.terraform_remote_state.level1.outputs.public_subnet_id[count.index]
   vpc_security_group_ids      = [aws_security_group.public.id]
   key_name                    = "main"  
   associate_public_ip_address = true
