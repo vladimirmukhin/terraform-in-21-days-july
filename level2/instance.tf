@@ -46,6 +46,7 @@ resource "aws_instance" "public" {
   vpc_security_group_ids      = [aws_security_group.public.id]
   key_name                    = "main"
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.main.name 
 
   tags = {
     Name = "${var.env_code}-public"
