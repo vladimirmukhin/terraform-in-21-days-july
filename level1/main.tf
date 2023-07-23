@@ -1,8 +1,15 @@
-module "vpc" {
-  source = "../modules/vpc"
+data "aws_availability_zones" "available" {
+  state = "available"
+}
 
-  env_code            = "dev"
-  public_subnet_cidr  = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
-  private_subnet_cidr = ["10.0.100.0/24", "10.0.101.0/24", "10.0.103.0/24"]
-  vpc_cidr            = "10.0.0.0/16"
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "3.14.2"
+
+  name               = var.env_code
+  cidr               = var.vpc_cidr
+  azs                = data.aws_availability_zones.available.names[*]
+  private_subnets    = var.private_subnet_cidr
+  public_subnets     = var.public_subnet_cidr
+  enable_nat_gateway = true
 }
